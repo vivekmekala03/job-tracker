@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Job Tracker</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f4f6f9;
+      color: #1a1a2e;
+      min-height: 100vh;
+    }
+
+    nav {
+      background: #1a1a2e;
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    nav .brand {
+      color: #fff;
+      font-weight: 600;
+      font-size: 1.1rem;
+      text-decoration: none;
+      letter-spacing: 0.3px;
+    }
+
+    nav .nav-links a {
+      color: #a0aec0;
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    nav .nav-links a:hover { color: #fff; }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    .messages { list-style: none; margin-bottom: 1.25rem; }
+
+    .messages li {
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .messages .success { background: #d4edda; color: #155724; }
+    .messages .error   { background: #f8d7da; color: #721c24; }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.6rem 1.4rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .btn:hover { opacity: 0.88; }
+    .btn-primary { background: #4f46e5; color: #fff; }
+    .btn-danger  { background: #e53e3e; color: #fff; }
+    .btn-ghost   { background: transparent; color: #4f46e5; border: 1.5px solid #4f46e5; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="{% url 'dashboard' %}">⚡ Job Tracker</a>
+  <div class="nav-links">
+    {% if user.is_authenticated %}
+      <span style="color:#a0aec0;font-size:0.9rem">{{ user.username }}</span>
+      <a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+      <a href="{% url 'login' %}">Login</a>
+      <a href="{% url 'register' %}">Register</a>
+    {% endif %}
+  </div>
+</nav>
+
+<div class="container">
+  {% if messages %}
+    <ul class="messages">
+      {% for msg in messages %}
+        <li class="{{ msg.tags }}">{{ msg }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>

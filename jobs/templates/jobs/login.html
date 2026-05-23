@@ -1,0 +1,32 @@
+{% extends 'jobs/base.html' %}
+{% block content %}
+
+<div style="max-width:420px; margin: 4rem auto;">
+  <div class="card">
+    <h2 style="margin-bottom:1.5rem;font-size:1.4rem;">Welcome back</h2>
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <div style="margin-bottom:1rem;">
+        <label style="display:block;font-size:0.85rem;font-weight:500;margin-bottom:4px;">Username</label>
+        <input type="text" name="username" required
+          style="width:100%;padding:0.6rem 0.8rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:0.95rem;outline:none;">
+      </div>
+
+      <div style="margin-bottom:1.5rem;">
+        <label style="display:block;font-size:0.85rem;font-weight:500;margin-bottom:4px;">Password</label>
+        <input type="password" name="password" required
+          style="width:100%;padding:0.6rem 0.8rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:0.95rem;outline:none;">
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width:100%;">Log in</button>
+    </form>
+
+    <p style="margin-top:1.25rem;font-size:0.875rem;color:#718096;text-align:center;">
+      No account? <a href="{% url 'register' %}" style="color:#4f46e5;">Register here</a>
+    </p>
+  </div>
+</div>
+
+{% endblock %}
