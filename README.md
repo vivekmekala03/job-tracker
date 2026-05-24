@@ -74,3 +74,15 @@ python manage.py runserver
 Visit `http://127.0.0.1:8000`
 
 ## Project Structure
+
+job-tracker/
+├── jobtracker/         # Django project settings
+├── jobs/               # Main app
+│   ├── models.py       # Job model
+│   ├── views.py        # All views
+│   ├── forms.py        # RegisterForm, JobForm
+│   ├── urls.py         # URL routing
+│   └── templates/jobs/ # HTML templates
+├── seed.py             # Demo data script
+├── requirements.txt
+└── README.md
