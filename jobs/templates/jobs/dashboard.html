@@ -1,7 +1,105 @@
 {% extends 'jobs/base.html' %}
 {% block content %}
 
-<h2 style="margin-bottom:1rem;">Dashboard</h2>
-<p style="color:#718096;">Phase 2 complete — auth is working. Jobs coming in Phase 3.</p>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+  <h2 style="font-size:1.4rem;">My Applications</h2>
+  <a href="{% url 'add_job' %}" class="btn btn-primary">+ Add Job</a>
+</div>
+
+<!-- Stats cards -->
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-bottom:2rem;">
+  <div class="card" style="text-align:center;padding:1.25rem;">
+    <div style="font-size:2rem;font-weight:700;color:#4f46e5;">{{ total }}</div>
+    <div style="font-size:0.85rem;color:#718096;margin-top:4px;">Total Applied</div>
+  </div>
+  <div class="card" style="text-align:center;padding:1.25rem;">
+    <div style="font-size:2rem;font-weight:700;color:#d69e2e;">{{ interviews }}</div>
+    <div style="font-size:0.85rem;color:#718096;margin-top:4px;">Interviews</div>
+  </div>
+  <div class="card" style="text-align:center;padding:1.25rem;">
+    <div style="font-size:2rem;font-weight:700;color:#38a169;">{{ offers }}</div>
+    <div style="font-size:0.85rem;color:#718096;margin-top:4px;">Offers</div>
+  </div>
+  <div class="card" style="text-align:center;padding:1.25rem;">
+    <div style="font-size:2rem;font-weight:700;color:#e53e3e;">{{ rejected }}</div>
+    <div style="font-size:0.85rem;color:#718096;margin-top:4px;">Rejected</div>
+  </div>
+</div>
+
+<!-- Search and filter -->
+<div class="card" style="margin-bottom:1.5rem;padding:1rem 1.25rem;">
+  <form method="GET" style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
+    <input type="text" name="q" value="{{ query }}" placeholder="Search company or role..."
+      style="flex:1;min-width:180px;padding:0.5rem 0.8rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:0.9rem;outline:none;">
+
+    <select name="status"
+      style="padding:0.5rem 0.8rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:0.9rem;outline:none;background:#fff;">
+      <option value="">All statuses</option>
+      {% for value, label in status_choices %}
+        <option value="{{ value }}" {% if status_filter == value %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+
+    <button type="submit" class="btn btn-primary" style="padding:0.5rem 1.2rem;">Search</button>
+    {% if query or status_filter %}
+      <a href="{% url 'dashboard' %}" class="btn btn-ghost" style="padding:0.5rem 1rem;">Clear</a>
+    {% endif %}
+  </form>
+</div>
+
+<!-- Job list -->
+{% if jobs %}
+  <div style="display:flex;flex-direction:column;gap:0.75rem;">
+    {% for job in jobs %}
+    <div class="card" style="padding:1.1rem 1.4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;">
+
+      <div>
+        <div style="font-weight:600;font-size:1rem;">{{ job.role }}</div>
+        <div style="color:#718096;font-size:0.9rem;margin-top:2px;">{{ job.company }}</div>
+        {% if job.job_url %}
+          <a href="{{ job.job_url }}" target="_blank"
+            style="font-size:0.8rem;color:#4f46e5;text-decoration:none;">View posting ↗</a>
+        {% endif %}
+      </div>
+
+      <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+        <!-- Status badge -->
+        <span style="
+          padding:0.3rem 0.9rem;
+          border-radius:20px;
+          font-size:0.8rem;
+          font-weight:500;
+          {% if job.status == 'applied' %}background:#ebf4ff;color:#2b6cb0;
+          {% elif job.status == 'screening' %}background:#fefcbf;color:#744210;
+          {% elif job.status == 'interview' %}background:#fef3c7;color:#92400e;
+          {% elif job.status == 'offer' %}background:#f0fff4;color:#276749;
+          {% elif job.status == 'rejected' %}background:#fff5f5;color:#9b2c2c;
+          {% endif %}
+        ">{{ job.get_status_display }}</span>
+
+        <span style="font-size:0.8rem;color:#a0aec0;">{{ job.date_applied }}</span>
+
+        <a href="{% url 'edit_job' job.pk %}" class="btn btn-ghost"
+          style="padding:0.3rem 0.9rem;font-size:0.82rem;">Edit</a>
+
+        <a href="{% url 'delete_job' job.pk %}" class="btn btn-danger"
+          style="padding:0.3rem 0.9rem;font-size:0.82rem;">Delete</a>
+      </div>
+
+    </div>
+    {% endfor %}
+  </div>
+
+{% else %}
+  <div class="card" style="text-align:center;padding:3rem;color:#718096;">
+    {% if query or status_filter %}
+      <p>No jobs match your search.</p>
+      <a href="{% url 'dashboard' %}" style="color:#4f46e5;">Clear filters</a>
+    {% else %}
+      <p style="font-size:1rem;margin-bottom:1rem;">No applications yet.</p>
+      <a href="{% url 'add_job' %}" class="btn btn-primary">Add your first job</a>
+    {% endif %}
+  </div>
+{% endif %}
 
 {% endblock %}
