@@ -1,103 +1,120 @@
 {% extends 'jobs/base.html' %}
 {% block content %}
 
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
-  <h2 style="font-size:1.4rem;">My Applications</h2>
-  <a href="{% url 'add_job' %}" class="btn btn-primary">+ Add Job</a>
+<!-- Header row -->
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.75rem;flex-wrap:wrap;gap:1rem;">
+  <div>
+    <h2 style="font-size:1.5rem;font-weight:700;">My Applications</h2>
+    <p style="color:#718096;font-size:0.88rem;margin-top:2px;">Track every opportunity in one place</p>
+  </div>
+  <a href="{% url 'add_job' %}" class="btn btn-primary">+ Add Application</a>
 </div>
 
-<!-- Stats cards -->
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-bottom:2rem;">
-  <div class="card" style="text-align:center;padding:1.25rem;">
-    <div style="font-size:2rem;font-weight:700;color:#4f46e5;">{{ total }}</div>
-    <div style="font-size:0.85rem;color:#718096;margin-top:4px;">Total Applied</div>
+<!-- Stats -->
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-bottom:2rem;">
+
+  <div class="card" style="text-align:center;padding:1.25rem 1rem;">
+    <div style="font-size:2.2rem;font-weight:700;color:#4f46e5;line-height:1;">{{ total }}</div>
+    <div style="font-size:0.8rem;color:#718096;margin-top:6px;font-weight:500;">Total Applied</div>
   </div>
-  <div class="card" style="text-align:center;padding:1.25rem;">
-    <div style="font-size:2rem;font-weight:700;color:#d69e2e;">{{ interviews }}</div>
-    <div style="font-size:0.85rem;color:#718096;margin-top:4px;">Interviews</div>
+
+  <div class="card" style="text-align:center;padding:1.25rem 1rem;">
+    <div style="font-size:2.2rem;font-weight:700;color:#ed8936;line-height:1;">{{ interviews }}</div>
+    <div style="font-size:0.8rem;color:#718096;margin-top:6px;font-weight:500;">Interviews</div>
   </div>
-  <div class="card" style="text-align:center;padding:1.25rem;">
-    <div style="font-size:2rem;font-weight:700;color:#38a169;">{{ offers }}</div>
-    <div style="font-size:0.85rem;color:#718096;margin-top:4px;">Offers</div>
+
+  <div class="card" style="text-align:center;padding:1.25rem 1rem;">
+    <div style="font-size:2.2rem;font-weight:700;color:#38a169;line-height:1;">{{ offers }}</div>
+    <div style="font-size:0.8rem;color:#718096;margin-top:6px;font-weight:500;">Offers</div>
   </div>
-  <div class="card" style="text-align:center;padding:1.25rem;">
-    <div style="font-size:2rem;font-weight:700;color:#e53e3e;">{{ rejected }}</div>
-    <div style="font-size:0.85rem;color:#718096;margin-top:4px;">Rejected</div>
+
+  <div class="card" style="text-align:center;padding:1.25rem 1rem;">
+    <div style="font-size:2.2rem;font-weight:700;color:#e53e3e;line-height:1;">{{ rejected }}</div>
+    <div style="font-size:0.8rem;color:#718096;margin-top:6px;font-weight:500;">Rejected</div>
   </div>
+
 </div>
 
-<!-- Search and filter -->
+<!-- Search & filter -->
 <div class="card" style="margin-bottom:1.5rem;padding:1rem 1.25rem;">
   <form method="GET" style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
-    <input type="text" name="q" value="{{ query }}" placeholder="Search company or role..."
-      style="flex:1;min-width:180px;padding:0.5rem 0.8rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:0.9rem;outline:none;">
+    <input type="text" name="q" value="{{ query }}"
+      placeholder="Search company or role..."
+      style="flex:1;min-width:180px;padding:0.55rem 0.9rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:0.9rem;outline:none;font-family:inherit;">
 
     <select name="status"
-      style="padding:0.5rem 0.8rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:0.9rem;outline:none;background:#fff;">
+      style="padding:0.55rem 0.9rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:0.9rem;outline:none;background:#fff;font-family:inherit;">
       <option value="">All statuses</option>
       {% for value, label in status_choices %}
         <option value="{{ value }}" {% if status_filter == value %}selected{% endif %}>{{ label }}</option>
       {% endfor %}
     </select>
 
-    <button type="submit" class="btn btn-primary" style="padding:0.5rem 1.2rem;">Search</button>
+    <button type="submit" class="btn btn-primary btn-sm" style="padding:0.55rem 1.2rem;">Filter</button>
     {% if query or status_filter %}
-      <a href="{% url 'dashboard' %}" class="btn btn-ghost" style="padding:0.5rem 1rem;">Clear</a>
+      <a href="{% url 'dashboard' %}" class="btn btn-ghost btn-sm" style="padding:0.55rem 1rem;">✕ Clear</a>
     {% endif %}
   </form>
 </div>
 
-<!-- Job list -->
+<!-- Job cards -->
 {% if jobs %}
-  <div style="display:flex;flex-direction:column;gap:0.75rem;">
+  <div style="display:flex;flex-direction:column;gap:0.85rem;">
     {% for job in jobs %}
-    <div class="card" style="padding:1.1rem 1.4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;">
+    <div class="card" style="padding:1.2rem 1.5rem;">
 
-      <div>
-        <div style="font-weight:600;font-size:1rem;">{{ job.role }}</div>
-        <div style="color:#718096;font-size:0.9rem;margin-top:2px;">{{ job.company }}</div>
-        {% if job.job_url %}
-          <a href="{{ job.job_url }}" target="_blank"
-            style="font-size:0.8rem;color:#4f46e5;text-decoration:none;">View posting ↗</a>
-        {% endif %}
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.75rem;">
+
+        <!-- Left: info -->
+        <div style="flex:1;min-width:200px;">
+          <div style="font-weight:600;font-size:1.05rem;">{{ job.role }}</div>
+          <div style="color:#4a5568;font-size:0.9rem;margin-top:2px;">{{ job.company }}</div>
+          <div style="margin-top:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <span class="badge badge-{{ job.status }}">{{ job.get_status_display }}</span>
+            <span style="font-size:0.78rem;color:#a0aec0;">{{ job.date_applied }}</span>
+            {% if job.job_url %}
+              <a href="{{ job.job_url }}" target="_blank"
+                style="font-size:0.78rem;color:#4f46e5;text-decoration:none;">View posting ↗</a>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Right: actions -->
+        <div style="display:flex;gap:0.5rem;align-items:center;">
+          <a href="{% url 'edit_job' job.pk %}" class="btn btn-ghost btn-sm">Edit</a>
+          <a href="{% url 'delete_job' job.pk %}" class="btn btn-danger btn-sm">Delete</a>
+        </div>
+
       </div>
 
-      <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
-        <!-- Status badge -->
-        <span style="
-          padding:0.3rem 0.9rem;
-          border-radius:20px;
-          font-size:0.8rem;
-          font-weight:500;
-          {% if job.status == 'applied' %}background:#ebf4ff;color:#2b6cb0;
-          {% elif job.status == 'screening' %}background:#fefcbf;color:#744210;
-          {% elif job.status == 'interview' %}background:#fef3c7;color:#92400e;
-          {% elif job.status == 'offer' %}background:#f0fff4;color:#276749;
-          {% elif job.status == 'rejected' %}background:#fff5f5;color:#9b2c2c;
-          {% endif %}
-        ">{{ job.get_status_display }}</span>
-
-        <span style="font-size:0.8rem;color:#a0aec0;">{{ job.date_applied }}</span>
-
-        <a href="{% url 'edit_job' job.pk %}" class="btn btn-ghost"
-          style="padding:0.3rem 0.9rem;font-size:0.82rem;">Edit</a>
-
-        <a href="{% url 'delete_job' job.pk %}" class="btn btn-danger"
-          style="padding:0.3rem 0.9rem;font-size:0.82rem;">Delete</a>
+      <!-- Progress pipeline bar -->
+      <div class="pipeline" style="margin-top:1rem;">
+        <div class="pipeline-step {% if job.status == 'applied' or job.status == 'screening' or job.status == 'interview' or job.status == 'offer' %}active-{{ job.status }}{% endif %}"></div>
+        <div class="pipeline-step {% if job.status == 'screening' or job.status == 'interview' or job.status == 'offer' %}active-{{ job.status }}{% endif %}"></div>
+        <div class="pipeline-step {% if job.status == 'interview' or job.status == 'offer' %}active-{{ job.status }}{% endif %}"></div>
+        <div class="pipeline-step {% if job.status == 'offer' %}active-offer{% endif %}"></div>
       </div>
+      {% if job.notes %}
+        <div style="margin-top:0.75rem;font-size:0.82rem;color:#718096;border-top:1px solid #f0f0f0;padding-top:0.6rem;">
+          {{ job.notes }}
+        </div>
+      {% endif %}
 
     </div>
     {% endfor %}
   </div>
 
 {% else %}
-  <div class="card" style="text-align:center;padding:3rem;color:#718096;">
+  <div class="card" style="text-align:center;padding:3.5rem 2rem;color:#718096;">
     {% if query or status_filter %}
-      <p>No jobs match your search.</p>
-      <a href="{% url 'dashboard' %}" style="color:#4f46e5;">Clear filters</a>
+      <div style="font-size:2rem;margin-bottom:0.75rem;">🔍</div>
+      <p style="margin-bottom:1rem;">No jobs match your search.</p>
+      <a href="{% url 'dashboard' %}" class="btn btn-ghost">Clear filters</a>
     {% else %}
-      <p style="font-size:1rem;margin-bottom:1rem;">No applications yet.</p>
-      <a href="{% url 'add_job' %}" class="btn btn-primary">Add your first job</a>
+      <div style="font-size:2.5rem;margin-bottom:0.75rem;">📋</div>
+      <p style="font-size:1rem;margin-bottom:1.25rem;font-weight:500;">No applications yet</p>
+      <p style="font-size:0.88rem;margin-bottom:1.5rem;">Start tracking your job search today.</p>
+      <a href="{% url 'add_job' %}" class="btn btn-primary">Add your first application</a>
     {% endif %}
   </div>
 {% endif %}

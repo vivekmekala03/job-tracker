@@ -12,85 +12,175 @@
       background: #f4f6f9;
       color: #1a1a2e;
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
+    /* NAV */
     nav {
       background: #1a1a2e;
       padding: 0 2rem;
-      height: 56px;
+      height: 58px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     nav .brand {
       color: #fff;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 1.1rem;
       text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    nav .brand span {
+      background: #4f46e5;
+      color: #fff;
+      font-size: 0.7rem;
+      padding: 2px 7px;
+      border-radius: 20px;
+      font-weight: 500;
       letter-spacing: 0.3px;
+    }
+
+    nav .nav-links { display: flex; align-items: center; gap: 0.5rem; }
+
+    nav .nav-links .user-chip {
+      color: #a0aec0;
+      font-size: 0.85rem;
+      background: rgba(255,255,255,0.07);
+      padding: 4px 12px;
+      border-radius: 20px;
     }
 
     nav .nav-links a {
       color: #a0aec0;
       text-decoration: none;
-      margin-left: 1.5rem;
-      font-size: 0.9rem;
-      transition: color 0.2s;
+      font-size: 0.88rem;
+      padding: 5px 12px;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
     }
 
-    nav .nav-links a:hover { color: #fff; }
+    nav .nav-links a:hover { background: rgba(255,255,255,0.1); color: #fff; }
 
+    /* LAYOUT */
     .container {
-      max-width: 960px;
+      max-width: 980px;
       margin: 0 auto;
       padding: 2rem 1.5rem;
+      flex: 1;
     }
 
+    /* MESSAGES */
     .messages { list-style: none; margin-bottom: 1.25rem; }
-
     .messages li {
       padding: 0.75rem 1rem;
       border-radius: 8px;
       font-size: 0.9rem;
       margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
+    .messages .success { background: #d4edda; color: #155724; border-left: 4px solid #38a169; }
+    .messages .error   { background: #f8d7da; color: #721c24; border-left: 4px solid #e53e3e; }
 
-    .messages .success { background: #d4edda; color: #155724; }
-    .messages .error   { background: #f8d7da; color: #721c24; }
-
+    /* CARDS */
     .card {
       background: #fff;
       border-radius: 12px;
-      padding: 2rem;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      padding: 1.5rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+      border: 1px solid #edf2f7;
     }
 
+    /* BUTTONS */
     .btn {
       display: inline-block;
-      padding: 0.6rem 1.4rem;
+      padding: 0.55rem 1.3rem;
       border-radius: 8px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 500;
       cursor: pointer;
       border: none;
       text-decoration: none;
-      transition: opacity 0.2s;
+      transition: transform 0.15s, opacity 0.15s;
     }
-
-    .btn:hover { opacity: 0.88; }
+    .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
     .btn-primary { background: #4f46e5; color: #fff; }
     .btn-danger  { background: #e53e3e; color: #fff; }
     .btn-ghost   { background: transparent; color: #4f46e5; border: 1.5px solid #4f46e5; }
+    .btn-sm      { padding: 0.3rem 0.85rem; font-size: 0.8rem; }
+
+    /* PROGRESS PIPELINE */
+    .pipeline {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin: 0.5rem 0 0;
+    }
+    .pipeline-step {
+      flex: 1;
+      height: 5px;
+      background: #e2e8f0;
+      transition: background 0.3s;
+    }
+    .pipeline-step:first-child { border-radius: 4px 0 0 4px; }
+    .pipeline-step:last-child  { border-radius: 0 4px 4px 0; }
+    .pipeline-step.active-applied    { background: #4299e1; }
+    .pipeline-step.active-screening  { background: #ecc94b; }
+    .pipeline-step.active-interview  { background: #ed8936; }
+    .pipeline-step.active-offer      { background: #48bb78; }
+    .pipeline-step.active-rejected   { background: #fc8181; }
+
+    /* STATUS BADGES */
+    .badge {
+      padding: 0.28rem 0.85rem;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+    .badge-applied    { background: #ebf4ff; color: #2b6cb0; }
+    .badge-screening  { background: #fefcbf; color: #744210; }
+    .badge-interview  { background: #fef3c7; color: #92400e; }
+    .badge-offer      { background: #f0fff4; color: #276749; }
+    .badge-rejected   { background: #fff5f5; color: #9b2c2c; }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 1.25rem;
+      font-size: 0.8rem;
+      color: #a0aec0;
+      border-top: 1px solid #edf2f7;
+      background: #fff;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      nav { padding: 0 1rem; }
+      .container { padding: 1.25rem 1rem; }
+    }
   </style>
 </head>
 <body>
 
 <nav>
-  <a class="brand" href="{% url 'dashboard' %}">⚡ Job Tracker</a>
+  <a class="brand" href="{% url 'dashboard' %}">
+    Job Tracker <span>BETA</span>
+  </a>
   <div class="nav-links">
     {% if user.is_authenticated %}
-      <span style="color:#a0aec0;font-size:0.9rem">{{ user.username }}</span>
+      <span class="user-chip">{{ user.username }}</span>
       <a href="{% url 'logout' %}">Logout</a>
     {% else %}
       <a href="{% url 'login' %}">Login</a>
@@ -110,6 +200,10 @@
 
   {% block content %}{% endblock %}
 </div>
+
+<footer>
+  Built with Django &amp; Python &nbsp;·&nbsp; Job Tracker {{ user.username }}
+</footer>
 
 </body>
 </html>
