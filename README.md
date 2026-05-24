@@ -75,6 +75,7 @@ Visit `http://127.0.0.1:8000`
 
 ## Project Structure
 
+```
 job-tracker/
 ├── jobtracker/         # Django project settings
 ├── jobs/               # Main app
@@ -86,3 +87,4 @@ job-tracker/
 ├── seed.py             # Demo data script
 ├── requirements.txt
 └── README.md
+```
