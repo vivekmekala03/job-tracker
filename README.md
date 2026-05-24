@@ -30,7 +30,7 @@ A full-stack web app to track your job applications — built with Python, Djang
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/job-tracker.git
+git clone https://github.com/vivekmekala03/job-tracker.git
 cd job-tracker
 ```
 
@@ -77,14 +77,15 @@ Visit `http://127.0.0.1:8000`
 
 ```
 job-tracker/
-├── jobtracker/         # Django project settings
-├── jobs/               # Main app
-│   ├── models.py       # Job model
-│   ├── views.py        # All views
-│   ├── forms.py        # RegisterForm, JobForm
-│   ├── urls.py         # URL routing
-│   └── templates/jobs/ # HTML templates
-├── seed.py             # Demo data script
+├── jobtracker/                # Django project settings
+├── jobs/                      # Main app
+│   ├── models.py              # Job model
+│   ├── views.py               # All views
+│   ├── forms.py               # RegisterForm, JobForm
+│   ├── urls.py                # URL routing
+│   └── templates/jobs/        # HTML templates
+├── screenshots/dashboard.png  # App screenshots
+├── seed.py                    # Demo data script
 ├── requirements.txt
 └── README.md
 ```
